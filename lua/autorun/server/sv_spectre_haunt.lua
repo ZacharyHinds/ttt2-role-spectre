@@ -1,54 +1,97 @@
-local function GetHauntedPlayer(ply)
-  if not IsValid(ply) or ply:GetSubRole() ~= ROLE_SPECTRE then return end
-
-  local haunted = ply:GetTargetPlayer()
-
-  if IsValid(haunted) and haunted:Alive() then
-    return haunted
-  end
-end
-
-local function GetSpectre()
-  for _, ply in ipairs(player.GetAll()) do
-    if IsValid(ply) and ply:GetSubRole == ROLE_SPECTRE then
-      return ply
-    end
-  end
-end
-
-local function ClearHaunt(ply)
-  if not IsValid(ply) or ply:GetSubRole() ~= ROLE_SPECTRE then return end
-
-  ply:SetTargetPlayer(nil)
-end
-
-local function SpecrtreRevive(ply)
-  if not IsValid(ply) or ply:IsAlive(), or ply:GetSubRole() ~= ROLE_SPECTRE then return end
-
-  ply:Revive(
-    0,
-    ClearHaunt,
-    nil,
-    false,
-    true
-  )
-end
-
-local function SpectreDied(ply)
-  local attacker = ply.targetAttacker
-
-  if IsValid(attacker) and ply:GetSubRole() == ROLE_SPECTRE then
-    ply:SetTargetPlayer(attacker)
-  end
-end
-hook.Add("PostPlayerDeath", "SpectreDied", SpectreDied)
-
-
-
-local function HauntedPlayerDied(ply)
-  local haunter = GetSpectre()
-  if haunter:GetTargetPlayer() == ply and not haunter:IsAlive() then
-    SpectreRevive(haunter)
-  end
-end
-hook.Add("PostPlayerDeath", "HauntedDied", HauntedPlayerDied)
+-- local ply_haunted = {}
+-- local ply_spectre = {}
+--
+-- local function FindSpectre()
+--   for _, ply in ipairs(player.GetAll()) do
+--     if not IsValid(ply) or ply:GetSubRole() ~= ROLE_SPECTRE then return end
+--
+--     if ply:GetSubRole() == ROLE_SPECTRE then
+--       return ply
+--     end
+--   end
+-- end
+--
+-- local function SpectreDeathNotification()
+--   local declare_mode = GetConVar("ttt2_spectre_declare_mode"):GetInt()
+--
+--   if declare_mode == 1 then
+--     LANG.MsgAll("ttt2_spectre_killed", nil, MSG_MSTACK_WARN)
+--   elseif declare_mode == 2 then
+--     for _, ply in ipairs(player.GetAll()) do
+--       if IsValid(ply) and ply:GetBaseRole() == ROLE_DETECTIVE then
+--         LANG.Msg(ply, "ttt2_spectre_killed", nil, MSG_MSTACK_WARN)
+--       end
+--     end
+--   end
+-- end
+--
+-- local function SetHaunt(ply, ply_spectre)
+--   if not IsValid(ply_spectre) then
+--     ply_spectre = FindSpectre()
+--   end
+--
+--   if not IsValid(ply_spectre) or not IsValid(ply) or ply_spectre  ~= ROLE_SPECTRE or not ply:Alive() then return end
+--
+--   if not ply_spectre:Alive() then
+--     ply_haunted = ply
+--   end
+-- end
+--
+-- local function GetHaunt(ply, ply_spectre)
+--   if not IsValid(ply_spectre) then
+--     ply_spectre = FindSpectre()
+--   end
+--   if not IsValid(ply_spectre) or not IsValid(ply) or ply_spectre ~= ROLE_SPECTRE then return end
+--
+--   if IsValid(ply_haunted) then
+--     return ply_haunted
+--   end
+-- end
+--
+-- local function ClearHaunt(ply_spectre)
+--   if not IsValid(ply_spectre) then
+--     ply_spectre = FindSpectre()
+--   end
+--   if not IsValid(ply_spectre) or ply_spectre ~= ROLE_SPECTRE then return end
+--
+--   ply_haunted = nil
+-- end
+--
+-- local function Reborn(ply_spectre)
+--   if not IsValid(ply_spectre) then
+--     ply_spectre = FindSpectre()
+--   end
+--   if not IsValid(ply_spectre) or ply_spectre ~= ROLE_SPECTRE or ply_spectre:Alive() then return end
+--
+--   ply_spectre:Revive(
+--     0,
+--     ply_spectre:ClearHaunt(),
+--     nil,
+--     false,
+--     true
+--   )
+-- end
+--
+-- local function SpectreDied(ply)
+--   local attacker = ply.targetAttacker
+--   if not IsValid(ply_spectre) then
+--     ply_spectre = FindSpectre()
+--   end
+--   if not IsValid(ply_spectre) then return end
+--
+--   if IsValid(attacker) and attacker:GetSubRole() ~= ROLE_SPECTRE then
+--     SetHaunt(attacker, ply_spectre)
+--   end
+-- end
+-- hook.Add("PlayerDeath", "SpectreDied", SpectreDied)
+--
+-- local function HauntedDied(ply)
+--   if not IsValid(ply) or not IsValid(ply_haunted) then return end
+--
+--   if ply == ply_haunted then
+--     Reborn(ply_spectre)
+--   end
+-- end
+-- hook.Add("PlayerDeath", "HauntedDied", HauntedDied)
+--
+-- hook.Add("TTTBeginRound", "SpectreGotSelected", FindSpectre)

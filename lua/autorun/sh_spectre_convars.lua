@@ -1,16 +1,15 @@
-CreateConVar("ttt2_spectre_declare_mode", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+CreateConVar("ttt2_spectre_declare_mode", 2, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 CreateConVar("ttt2_spectre_revive_health", 50, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
-CreateConVar("ttt2_spectre_revive_delay", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
-CreateConVar("ttt2_spectre_smoke_enable", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+-- CreateConVar("ttt2_spectre_smoke_enable", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 
 hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_spectre_dynamic_convars", function(tbl)
   tbl[ROLE_SPECTRE] = tbl[ROLE_SPECTRE] or {}
 
-  table.insert(tbl[ROLE_SPECTRE], {
-    cvar = "ttt2_spectre_smoke_enable",
-    checkbox = true,
-    desc = "ttt2_spectre_smoke_enable (def. 1)"
-  })
+  -- table.insert(tbl[ROLE_SPECTRE], {
+  --   cvar = "ttt2_spectre_smoke_enable",
+  --   checkbox = true,
+  --   desc = "ttt2_spectre_smoke_enable (def. 1)"
+  -- })
 
   table.insert(tbl[ROLE_SPECTRE], {
     cvar = "ttt2_spectre_revive_health",
@@ -22,19 +21,14 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_spectre_dynamic_convars", function(tbl
   })
 
   table.insert(tbl[ROLE_SPECTRE], {
-    cvar = "ttt2_spectre_revive_delay",
-    slider = true,
-    min = 0,
-    max = 30,
-    decimal = 0,
-    desc = "ttt2_spectre_revive_delay (def. 0)"
-  })
-
-  table.insert(tbl[ROLE_SPECTRE], {
     cvar = "ttt2_spectre_declare_mode",
-    slider = true,
-    min = 0,
-    max = 2,
-    desc = "ttt2_spectre_declare_mode (def. 1) \n 0. Don't declare spectre's death \n 1. Declare spectre's death to everyone \n 2. Declare spectre's death to detective(s)"
+    combobox = true,
+    desc = "Declare Mode (Def. 2)",
+    choices = {
+      "0 - Don't declare the Spectre's death.",
+      "1 - Declare the Spectre's death to every player.",
+      "2 - Declare the Spectre's death to only detectives."
+    },
+    numStart = 0
   })
 end)

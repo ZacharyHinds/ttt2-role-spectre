@@ -44,14 +44,55 @@ if CLIENT then
   net.Receive("ttt2_role_specte_clear_haunter", function()
     SPECTRE_DATA.haunter = {}
   end)
+
+  function DoSmoke()
+    for _, ply in ipairs(player.GetAll()) do
+      if ply:Alive() and SPECTRE_DATA:IsHaunt(ply) then
+        if not ply.SmokeEmitter then ply.SmokeEmitter = ParticleEmitter(ply:GetPos()) end
+        if not ply.SmokeNextPart then ply.SmokeNextPart = CurTime() end
+        local pos = ply:GetPos() + Vector(0, 0, 30)
+        local client = LocalPlayer()
+        if ply.SmokeNextPart < CurTime() then
+          if client:GetPos():Distance(pos) > 1000 then return end
+          ply.SmokeEmitter:SetPos(pos)
+          ply.SmokeNextPart = CurTime() + math.Rand(0.003, 0.01)
+          local vec = Vector(math.Rand(-8, 8), math.Rand(-8, 8), math.Rand(10, 55))
+          local pos = ply:LocalToWorld(vec)
+          local particle = ply.SmokeEmitter:Add("particle/snow.vmt", pos)
+          particle:SetVelocity(Vector(0, 0, 4) + VectorRand() * 3)
+          particle:SetDieTime(math.Rand(0.5, 2))
+          particle:SetStartAlpha(math.random(150, 220))
+          particle:SetEndAlpha(0)
+          local size = math.random(4, 7)
+          particle:SetStartSize(size)
+          particle:SetEndSize(size + 1)
+          particle:SetRoll(0)
+          particle:SetRollDelta(0)
+          particle:SetColor(0, 0, 0)
+        end
+      else
+        if ply.SmokeEmitter then
+          ply.SmokeEmitter:Finish()
+          ply.SmokeEmitter = nil
+        end
+      end
+    end
+  end
+
+  net.Receive("ttt2_role_spectre_smoke", function()
+    DoSmoke()
+  end)
+
 end
 
 if SERVER then
   util.AddNetworkString("ttt2_role_spectre_haunt")
   util.AddNetworkString("ttt2_role_spectre_haunter")
   util.AddNetworkString("ttt2_role_spectre_remove_haunt")
+  util.AddNetworkString("ttt2_role_spectre_remove_haunter")
   util.AddNetworkString("ttt2_role_spectre_clear_haunt")
   util.AddNetworkString("ttt2_role_specte_clear_haunter")
+  util.AddNetworkString("ttt2_role_spectre_smoke")
 
   function SPECTRE_DATA:ClearHaunt()
     self.haunted = {}
@@ -214,6 +255,21 @@ if SERVER then
   hook.Add("TTTEndRound", "ResetHaunting", function()
      SPECTRE_DATA:FullClear()
   end)
+
+  hook.Add("Think", "ConstantHauntSmoke", function()
+    local smoke_mode = GetConVar("ttt2_spectre_smoke_mode"):GetInt()
+    if smoke_mode == 2 then
+      net.Send("ttt2_role_spectre_smoke")
+    end
+  end)
+
+  hook.Add("EntityTakeDamage", "HauntSmokeOnHit", function(ply)
+    local smoke_mode = GetConVar("ttt2_spectre_smoke_mode"):GetInt()
+    if smoke_mode == 1 and SPECTRE_DATA:IsHaunt(ply) then
+      net.Send("ttt2_role_spectre_smoke")
+    end
+  end)
+
 end
 
 function SPECTRE_DATA:AnyHaunt(ply)
@@ -236,5 +292,4 @@ function SPECTRE_DATA:IsHaunter(ply)
 
   return self.haunter[tostring(ply:SteamID64() or ply:EntIndex())] or false
 end
-
 --TODO smoke effect

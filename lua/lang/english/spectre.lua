@@ -10,8 +10,10 @@ L["ttt2_desc_" .. SPECTRE.name] = [[The Spectre is a Traitor working together wi
 The Spectre is just able to collect some credits if he kills his target.]]
 
 -- OTHER ROLE LANGUAGE STRINGS
-L["ttt2_spectre_killed"] = "The Spectre has been killed!"
-L["ttt2_spectre_revived"] = "The Spectre has revived!"
+L["ttt2_spectre_killed_title"] = "The Spectre has been killed!"
+L["ttt2_spectre_killed_text"] = "Be on the lookout!"
+L["ttt2_spectre_revived"] = "The Spectre has been revived!"
+L["ttt2_spectre_revived_text"] = "Their killer has died so they have been reborn!"
 
 -- DECLARATION MODE LANGS
 L["ttt2_role_spectre_dec_state_0"] = "Don't declare that the Spectre has died."

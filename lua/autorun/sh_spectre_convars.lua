@@ -32,15 +32,21 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_spectre_dynamic_convars", function(tbl
     numStart = 0
   })
 
+  -- table.insert(tbl[ROLE_SPECTRE], {
+  --   cvar = "ttt2_spectre_smoke_mode",
+  --   combobox = true,
+  --   desc = "Smoke Mode (Def. 2)",
+  --   choices = {
+  --     "O - No Haunted Smoke",
+  --     "1 - Haunted Smoke on Damage.",
+  --     "2 - Haunted Constant Smoke."
+  --   },
+  --   numStart = 0
+  -- })
+
   table.insert(tbl[ROLE_SPECTRE], {
     cvar = "ttt2_spectre_smoke_mode",
-    combobox = true,
-    desc = "Smoke Mode (Def. 2)",
-    choices = {
-      "O - No Haunted Smoke",
-      "1 - Haunted Smoke on Damage.",
-      "2 - Haunted Constant Smoke."
-    },
-    numStart = 0
+    checkbox = true,
+    desc = "ttt2_spectre_smoke_mode (Def. 1)"
   })
 end)

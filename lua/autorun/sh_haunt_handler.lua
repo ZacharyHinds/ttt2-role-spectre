@@ -12,6 +12,37 @@ if SERVER then
     end
   end
 
+  function sendPopups(id)
+    local declare_mode = GetConVar("ttt2_spectre_declare_mode"):GetInt()
+    local msg_plys = {}
+
+    for _, ply in ipairs(player.GetAll()) do
+      if declare_mode == 0 then
+        return
+      elseif declare_mode == 1 then
+        msg_plys[#msg_plys + 1] = ply
+      elseif declare_mode == 2 then
+        if ply:GetBaseRole() == ROLE_DETECTIVE then
+          msg_plys[#msg_plys + 1] = ply
+        end
+      end
+    end
+    for v, ply in ipairs(msg_plys) do
+      net.Start("ttt2_net_show_haunt_popup")
+      net.WriteString(id)
+      net.WriteBool(true)
+      net.Send(ply)
+      timer.Simple(5, function(ply)
+        if IsValid(ply) then
+          net.Start("ttt2_net_show_haunt_popup")
+          net.WriteString(id)
+          net.WriteBool(false)
+          net.Send(ply)
+        end
+      end)
+    end
+  end
+
   hook.Add("PostPlayerDeath", "SpectreKilled", function(ply)
     if not IsValid(ply) then return end
     local attacker = ply.targetAttacker
@@ -19,6 +50,7 @@ if SERVER then
     if ply:GetSubRole() == ROLE_SPECTRE then
       print(ply:Nick() .. " is now haunting ".. attacker:Nick())
       attacker.hauntedBy = tostring(ply:AccountID())
+      sendPopups("spectreDied")
       if GetConVar("ttt2_spectre_smoke_mode"):GetBool() then
         attacker:SetNWBool("Haunted", true)
       end
@@ -50,6 +82,7 @@ if SERVER then
         ply.hauntedBy = nil
         ply:SetNWBool("Haunted", false)
         SendFullStateUpdate()
+        sendPopups("spectreRevived")
       end,
       nil,
       false,
@@ -90,15 +123,15 @@ if CLIENT then
           local pos = ply:LocalToWorld(vec)
           local particle = ply.SmokeEmitter:Add("particle/snow.vmt", pos)
           particle:SetVelocity(Vector(0, 0, 4) + VectorRand() * 3)
-          particle:SetDieTime(math.Rand(0.5, 2))
-          particle:SetStartAlpha(math.random(150, 220))
+          particle:SetDieTime(math.Rand(0.2, 2))
+          particle:SetStartAlpha(math.random(80, 255))
           particle:SetEndAlpha(0)
           local size = math.random(4, 7)
           particle:SetStartSize(size)
-          particle:SetEndSize(size + 1)
+          particle:SetEndSize(size + 1*(-1 ^ math.random(1,2)))
           particle:SetRoll(0)
           particle:SetRollDelta(0)
-          particle:SetColor(0, 0, 0)
+          particle:SetColor(46, 46, 46)
         end
       else
         if ply.SmokeEmitter then
@@ -108,13 +141,48 @@ if CLIENT then
       end
     end
   end
+
   hook.Add("Think", "DoHauntSmoke", function()
     if not GetConVar("ttt2_spectre_smoke_mode"):GetBool() then return end
     DoSmoke()
    end)
+
   hook.Add("TTTEndRound", "ClearHauntSmoke", function()
     for _, ply in ipairs(player.GetAll()) do
       if ply:GetNWBool("Haunted", true) then ply:SetNWBool("Haunted", false) end
+    end
+  end)
+
+  net.Receive("ttt2_net_show_haunt_popup", function()
+    local client = LocalPlayer()
+    client.epopId = client.epopId or {}
+
+    local id = net.ReadString()
+    local shouldAdd = net.ReadBool()
+
+    if shouldAdd then
+      if id == "spectreDied" then
+        client.epopId[id] = EPOP:AddMessage(
+        {
+          text = LANG.GetTranslation("ttt2_spectre_killed_title"),
+          color = SPECTRE.ltcolor
+        },
+        LANG.GetTranslation("ttt2_spectre_killed_text"),
+        6
+        )
+      elseif id == "spectreRevived" then
+        client.epopId[id] = EPOP:AddMessage(
+        {
+          text = LANG.GetTranslation("ttt2_spectre_revived"),
+          color = SPECTRE.ltcolor
+        },
+        LANG.GetTranslation("ttt2_spectre_revived_text")
+        )
+      end
+    else
+      if client.epopId[id] then
+        EPOP:RemoveMessage(client.epopId[id])
+      end
     end
   end)
 end

@@ -25,9 +25,9 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_spectre_dynamic_convars", function(tbl
     combobox = true,
     desc = "Declare Mode (Def. 2)",
     choices = {
-      "0 - Don't declare the Spectre's death.",
-      "1 - Declare the Spectre's death to every player.",
-      "2 - Declare the Spectre's death to only detectives."
+      "0 - Don't declare the Spectre's status.",
+      "1 - Declare the Spectre's status to every player.",
+      "2 - Declare the Spectre's status to only detectives."
     },
     numStart = 0
   })

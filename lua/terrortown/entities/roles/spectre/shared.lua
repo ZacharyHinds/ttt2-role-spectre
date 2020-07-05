@@ -8,7 +8,6 @@ function ROLE:PreInitialize()
 	self.color = Color(0, 242, 255, 255)
 
 	self.abbr = "spr" -- abbreviation
-	self.radarColor = Color(150, 150, 150) -- color if someone is using the radar
 	self.surviveBonus = 0 -- bonus multiplier for every survive while another player was killed
 	self.scoreKillsMultiplier = 1 -- multiplier for kill of player of another team
 	self.scoreTeamKillsMultiplier = -8 -- multiplier for teamkill

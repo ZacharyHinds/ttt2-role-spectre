@@ -75,9 +75,26 @@ if SERVER then
 
     if haunter:GetSubRole() ~= ROLE_SPECTRE then return end
 
+    -- Find spawns
+    local spawnpoints = {}
+    local spectre_worldspawn = GetConVar("ttt2_spectre_worldspawn"):GetBool()
+
+    spawnpoints = table.Add(spawnpoints, ents.FindByClass("info_player_start"))
+		spawnpoints = table.Add(spawnpoints, ents.FindByClass("info_player_deathmatch"))
+		spawnpoints = table.Add(spawnpoints, ents.FindByClass("info_player_combine"))
+		spawnpoints = table.Add(spawnpoints, ents.FindByClass("info_player_rebel"))
+		spawnpoints = table.Add(spawnpoints, ents.FindByClass("info_player_counterterrorist"))
+		spawnpoints = table.Add(spawnpoints, ents.FindByClass("info_player_terrorist"))
+		spawnpoints = table.Add(spawnpoints, ents.FindByClass("info_player_axis"))
+		spawnpoints = table.Add(spawnpoints, ents.FindByClass("info_player_allies"))
+		spawnpoints = table.Add(spawnpoints, ents.FindByClass("gmod_player_start"))
+
     haunter:Revive(
       0,
       function()
+        if spectre_worldspawn then
+          haunter:SetPos(spawnpoints[math.random(1, #spawnpoints)]:GetPos())
+        end
         haunter:SetHealth(GetConVar("ttt2_spectre_revive_health"):GetInt())
         ply.hauntedBy = nil
         ply:SetNWBool("Haunted", false)

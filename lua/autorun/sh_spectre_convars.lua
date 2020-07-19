@@ -1,6 +1,13 @@
 CreateConVar("ttt2_spectre_declare_mode", 2, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 CreateConVar("ttt2_spectre_revive_health", 50, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 CreateConVar("ttt2_spectre_smoke_mode", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+CreateConVar("ttt2_spectre_worldspawn", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+
+if CLIENT then
+  hook.Add("TTT2FinishedLoading", "mes_devicon", function() -- addon developer emblem for me ^_^
+    AddTTT2AddonDev("76561198049910438")
+  end)
+end
 
 hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_spectre_dynamic_convars", function(tbl)
   tbl[ROLE_SPECTRE] = tbl[ROLE_SPECTRE] or {}
@@ -48,5 +55,11 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_spectre_dynamic_convars", function(tbl
     cvar = "ttt2_spectre_smoke_mode",
     checkbox = true,
     desc = "ttt2_spectre_smoke_mode (Def. 1)"
+  })
+
+  table.insert(tbl[ROLE_SPECTRE], {
+    cvar = "ttt2_spectre_worldspawn",
+    checkbox = true,
+    desc = "ttt2_spectre_worldspawn (Def. 0)"
   })
 end)

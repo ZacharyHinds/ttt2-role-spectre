@@ -6,8 +6,7 @@ L["info_popup_" .. SPECTRE.name] = [[You are a Spectre! You haunt people who kil
 L["body_found_" .. SPECTRE.abbr] = "They were a Spectre!"
 L["search_role_" .. SPECTRE.abbr] = "This person was a Spectre!"
 L["target_" .. SPECTRE.name] = "Spectre"
-L["ttt2_desc_" .. SPECTRE.name] = [[The Spectre is a Traitor working together with the other traitors with the goal to kill all other non-traitor players.
-The Spectre is just able to collect some credits if he kills his target.]]
+L["ttt2_desc_" .. SPECTRE.name] = [[The Spectre is an innocent who revives after their killer dies!]]
 
 -- OTHER ROLE LANGUAGE STRINGS
 L["ttt2_spectre_killed_title"] = "The Spectre has been killed!"

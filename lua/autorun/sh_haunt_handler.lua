@@ -43,9 +43,8 @@ if SERVER then
     end
   end
 
-  hook.Add("PostPlayerDeath", "SpectreKilled", function(ply)
-    if not IsValid(ply) then return end
-    local attacker = ply.targetAttacker
+  hook.Add("TTT2PostPlayerDeath", "SpectreKilled", function(ply, _, attacker)
+    if not IsValid(ply) or not IsValid(attacker) or not attacker:IsPlayer() then return end
 
     if ply:GetSubRole() == ROLE_SPECTRE then
       print(ply:Nick() .. " is now haunting ".. attacker:Nick())

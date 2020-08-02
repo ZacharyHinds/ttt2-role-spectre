@@ -157,11 +157,9 @@ if CLIENT then
      end
    end
 
-  hook.Add("TTTEndRound", "ClearHauntSmoke", function()
-    for _, ply in ipairs(player.GetAll()) do
-      if ply:GetNWBool("Haunted", true) then ply:SetNWBool("Haunted", false) end
-    end
-  end)
+  hook.Add("TTTEndRound", "ClearHauntSmoke", ResetSpectreClient)
+  hook.Add("TTTPrepRound", "ResetSpectreClient", ResetSpectreClient)
+  hook.Add("TTTBeginRound", "ResetSpectreClient", ResetSpectreClient)
 
   net.Receive("ttt2_net_show_haunt_popup", function()
     local client = LocalPlayer()

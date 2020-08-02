@@ -45,6 +45,7 @@ if SERVER then
 
   hook.Add("TTT2PostPlayerDeath", "SpectreKilled", function(ply, _, attacker)
     if not IsValid(ply) or not IsValid(attacker) or not attacker:IsPlayer() then return end
+    if GetRoundState() ~= ROUND_ACTIVE then return end
 
     if ply:GetSubRole() == ROLE_SPECTRE then
       print(ply:Nick() .. " is now haunting ".. attacker:Nick())
@@ -96,21 +97,17 @@ if SERVER then
     )
   end)
 
-  hook.Add("TTTEndRound", "ClearHaunt", function()
+  function ResetSpectre()
     for _, ply in ipairs(player.GetAll()) do
       ply.hauntedBy = nil
       ply:SetNWBool("Haunted", false)
       SendFullStateUpdate()
     end
-  end)
+  end
 
-  hook.Add("TTTPrepRound", "DoubleClearHaunt", function()
-    for _, ply in ipairs(player.GetAll()) do
-      ply.hauntedBy = nil
-      ply:SetNWBool("Haunted", false)
-      SendFullStateUpdate()
-    end
-  end)
+  hook.Add("TTTPrepRound", "ResetSpectre", ResetSpectre)
+  hook.Add("TTTBeginRound", "ResetSpectre", ResetSpectre)
+  hook.Add("TTTEndRound", "ResetSpectre", ResetSpectre)
 end
 
 if CLIENT then

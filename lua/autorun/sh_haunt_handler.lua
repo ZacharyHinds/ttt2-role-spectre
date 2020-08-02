@@ -150,6 +150,13 @@ if CLIENT then
     DoSmoke()
    end)
 
+   function ResetSpectreClient()
+     for _, ply in ipairs(player.GetAll()) do
+       ply:SetNWBool("Haunted", false)
+       if ply.hauntedBy then ply.hauntedBy = nil end
+     end
+   end
+
   hook.Add("TTTEndRound", "ClearHauntSmoke", function()
     for _, ply in ipairs(player.GetAll()) do
       if ply:GetNWBool("Haunted", true) then ply:SetNWBool("Haunted", false) end

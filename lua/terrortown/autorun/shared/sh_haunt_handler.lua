@@ -196,7 +196,7 @@ if CLIENT then
         local killer_nick = killer:Nick()
         client.epopId[id] = EPOP:AddMessage(
         {
-          text = LANG.GetParamTranslation("ttt2_spectre_self_title", nick = killer_nick),
+          text = LANG.GetParamTranslation("ttt2_spectre_self_title", {nick = killer_nick}),
           color = SPECTRE.ltcolor
         },
         LANG.GetTranslation("ttt2_spectre_self_text")

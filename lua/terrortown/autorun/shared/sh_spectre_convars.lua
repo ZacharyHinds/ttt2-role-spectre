@@ -19,24 +19,24 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_spectre_dynamic_convars", function(tbl
   -- })
 
   table.insert(tbl[ROLE_SPECTRE], {
-    cvar = "ttt2_spectre_revive_health",
-    slider = true,
-    min = 1,
-    max = 100,
-    decimal = 0,
-    desc = "ttt2_spectre_revive_health (def. 50)"
+      cvar = "ttt2_spectre_revive_health",
+      slider = true,
+      min = 1,
+      max = 100,
+      decimal = 0,
+      desc = "ttt2_spectre_revive_health (def. 50)"
   })
 
   table.insert(tbl[ROLE_SPECTRE], {
-    cvar = "ttt2_spectre_declare_mode",
-    combobox = true,
-    desc = "Declare Mode (Def. 2)",
-    choices = {
-      "0 - Don't declare the Spectre's status.",
-      "1 - Declare the Spectre's status to every player.",
-      "2 - Declare the Spectre's status to only detectives."
-    },
-    numStart = 0
+      cvar = "ttt2_spectre_declare_mode",
+      combobox = true,
+      desc = "Declare Mode (Def. 2)",
+      choices = {
+        "0 - Don't declare the Spectre's status.",
+        "1 - Declare the Spectre's status to every player.",
+        "2 - Declare the Spectre's status to only detectives."
+      },
+      numStart = 0
   })
 
   -- table.insert(tbl[ROLE_SPECTRE], {
@@ -52,14 +52,14 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_spectre_dynamic_convars", function(tbl
   -- })
 
   table.insert(tbl[ROLE_SPECTRE], {
-    cvar = "ttt2_spectre_smoke_mode",
-    checkbox = true,
-    desc = "ttt2_spectre_smoke_mode (Def. 1)"
+      cvar = "ttt2_spectre_smoke_mode",
+      checkbox = true,
+      desc = "ttt2_spectre_smoke_mode (Def. 1)"
   })
 
   table.insert(tbl[ROLE_SPECTRE], {
-    cvar = "ttt2_spectre_worldspawn",
-    checkbox = true,
-    desc = "ttt2_spectre_worldspawn (Def. 0)"
+      cvar = "ttt2_spectre_worldspawn",
+      checkbox = true,
+      desc = "ttt2_spectre_worldspawn (Def. 0)"
   })
 end)

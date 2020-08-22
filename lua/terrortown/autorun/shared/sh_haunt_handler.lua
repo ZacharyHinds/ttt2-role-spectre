@@ -144,7 +144,7 @@ if CLIENT then
           particle:SetEndAlpha(0)
           local size = math.random(4, 7)
           particle:SetStartSize(size)
-          particle:SetEndSize(size + 1*(-1 ^ math.random(1,2)))
+          particle:SetEndSize(size + 1 * (-1 ^ math.random(1, 2)))
           particle:SetRoll(0)
           particle:SetRollDelta(0)
           particle:SetColor(46, 46, 46)
@@ -161,14 +161,14 @@ if CLIENT then
   hook.Add("Think", "DoHauntSmoke", function()
     if not GetConVar("ttt2_spectre_smoke_mode"):GetBool() then return end
     DoSmoke()
-   end)
+  end)
 
-   function ResetSpectreClient()
-     for _, ply in ipairs(player.GetAll()) do
-       ply:SetNWBool("Haunted", false)
-       if ply.hauntedBy then ply.hauntedBy = nil end
-     end
-   end
+  function ResetSpectreClient()
+    for _, ply in ipairs(player.GetAll()) do
+      ply:SetNWBool("Haunted", false)
+      if ply.hauntedBy then ply.hauntedBy = nil end
+    end
+  end
 
   hook.Add("TTTEndRound", "ClearHauntSmoke", ResetSpectreClient)
   hook.Add("TTTPrepRound", "ResetSpectreClient", ResetSpectreClient)
@@ -184,30 +184,30 @@ if CLIENT then
     if shouldAdd then
       if id == "spectreDied" then
         client.epopId[id] = EPOP:AddMessage(
-        {
-          text = LANG.GetTranslation("ttt2_spectre_killed_title"),
-          color = SPECTRE.ltcolor
-        },
-        LANG.GetTranslation("ttt2_spectre_killed_text"),
-        6
+          {
+            text = LANG.GetTranslation("ttt2_spectre_killed_title"),
+            color = SPECTRE.ltcolor
+          },
+          LANG.GetTranslation("ttt2_spectre_killed_text"),
+          6
         )
       elseif id == "spectreDied_self" then
         local killer = net.ReadEntity()
         local killer_nick = killer:Nick()
         client.epopId[id] = EPOP:AddMessage(
-        {
-          text = LANG.GetParamTranslation("ttt2_spectre_self_title", {nick = killer_nick}),
-          color = SPECTRE.ltcolor
-        },
-        LANG.GetTranslation("ttt2_spectre_self_text")
+          {
+            text = LANG.GetParamTranslation("ttt2_spectre_self_title", {nick = killer_nick}),
+            color = SPECTRE.ltcolor
+          },
+          LANG.GetTranslation("ttt2_spectre_self_text")
         )
       elseif id == "spectreRevived" then
         client.epopId[id] = EPOP:AddMessage(
-        {
-          text = LANG.GetTranslation("ttt2_spectre_revived"),
-          color = SPECTRE.ltcolor
-        },
-        LANG.GetTranslation("ttt2_spectre_revived_text")
+          {
+            text = LANG.GetTranslation("ttt2_spectre_revived"),
+            color = SPECTRE.ltcolor
+          },
+          LANG.GetTranslation("ttt2_spectre_revived_text")
         )
       end
     else

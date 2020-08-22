@@ -13,6 +13,8 @@ L["ttt2_spectre_killed_title"] = "The Spectre has been killed!"
 L["ttt2_spectre_killed_text"] = "Be on the lookout!"
 L["ttt2_spectre_revived"] = "The Spectre has been revived!"
 L["ttt2_spectre_revived_text"] = "Their killer has died so they have been reborn!"
+L["ttt2_spectre_self_title"] = "You are haunting {nick}"
+L["ttt2_spectre_self_text"] = "You will revive when they die"
 
 -- DECLARATION MODE LANGS
 L["ttt2_role_spectre_dec_state_0"] = "Don't declare that the Spectre has died."

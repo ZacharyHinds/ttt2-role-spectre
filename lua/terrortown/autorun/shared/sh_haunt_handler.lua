@@ -51,11 +51,24 @@ if SERVER then
       print(ply:Nick() .. " is now haunting ".. attacker:Nick())
       attacker.hauntedBy = tostring(ply:AccountID())
       sendPopups("spectreDied")
+      net.Start("ttt2_net_show_haunt_popup")
+      net.WriteString("spectreDied_self")
+      net.WriteBool(true)
+      net.WriteEntity(attacker)
+      net.Send(ply)
+      timer.Simple(5, function(ply)
+        if IsValid(ply) then
+          net.Start("ttt2_net_show_haunt_popup")
+          net.WriteString("spectreDied_self")
+          net.WriteBool(false)
+          net.Send(ply)
+        end
+      end)
       if GetConVar("ttt2_spectre_smoke_mode"):GetBool() then
         attacker:SetNWBool("Haunted", true)
       end
       SendFullStateUpdate()
-      print(attacker.hauntedBy)
+      -- print(attacker.hauntedBy)
     end
   end)
 
@@ -177,6 +190,16 @@ if CLIENT then
         },
         LANG.GetTranslation("ttt2_spectre_killed_text"),
         6
+        )
+      elseif id == "spectreDied_self" then
+        local killer = net.ReadEntity()
+        local killer_nick = killer:Nick()
+        client.epopId[id] = EPOP:AddMessage(
+        {
+          text = LANG.GetParamTranslation("ttt2_spectre_self_title", nick = killer_nick),
+          color = SPECTRE.ltcolor
+        },
+        LANG.GetTranslation("ttt2_spectre_self_text")
         )
       elseif id == "spectreRevived" then
         client.epopId[id] = EPOP:AddMessage(

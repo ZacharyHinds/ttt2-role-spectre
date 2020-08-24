@@ -48,7 +48,7 @@ if SERVER then
     if GetRoundState() ~= ROUND_ACTIVE then return end
 
     if ply:GetSubRole() == ROLE_SPECTRE then
-      print(ply:Nick() .. " is now haunting ".. attacker:Nick())
+      print(ply:Nick() .. " is now haunting " .. attacker:Nick())
       attacker.hauntedBy = tostring(ply:AccountID())
       sendPopups("spectreDied")
       net.Start("ttt2_net_show_haunt_popup")
@@ -136,7 +136,7 @@ if CLIENT then
           ply.SmokeEmitter:SetPos(pos)
           ply.SmokeNextPart = CurTime() + math.Rand(0.003, 0.01)
           local vec = Vector(math.Rand(-8, 8), math.Rand(-8, 8), math.Rand(10, 55))
-          local pos = ply:LocalToWorld(vec)
+          pos = ply:LocalToWorld(vec)
           local particle = ply.SmokeEmitter:Add("particle/snow.vmt", pos)
           particle:SetVelocity(Vector(0, 0, 4) + VectorRand() * 3)
           particle:SetDieTime(math.Rand(0.2, 2))

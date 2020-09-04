@@ -45,11 +45,13 @@ if SERVER then
 
   hook.Add("TTT2PostPlayerDeath", "SpectreKilled", function(ply, _, attacker)
     if not IsValid(ply) or not IsValid(attacker) or not attacker:IsPlayer() then return end
+    if ply:IsGhost() or attacker:IsGhost() then return end
     if GetRoundState() ~= ROUND_ACTIVE then return end
 
     if ply:GetSubRole() == ROLE_SPECTRE then
       print(ply:Nick() .. " is now haunting " .. attacker:Nick())
       attacker.hauntedBy = tostring(ply:AccountID())
+      STATUS:AddStatus(attacker, "spectre_haunt_status")
       sendPopups("spectreDied")
       net.Start("ttt2_net_show_haunt_popup")
       net.WriteString("spectreDied_self")
@@ -101,6 +103,7 @@ if SERVER then
         haunter:SetHealth(GetConVar("ttt2_spectre_revive_health"):GetInt())
         ply.hauntedBy = nil
         ply:SetNWBool("Haunted", false)
+        STATUS:RemoveStatus(ply, "spectre_haunt_status")
         SendFullStateUpdate()
         sendPopups("spectreRevived")
       end,
@@ -124,6 +127,13 @@ if SERVER then
 end
 
 if CLIENT then
+  hook.Add("Initialize", "SpectreInitStatus", function()
+    STATUS:RegisterStatus("spectre_haunt_status", {
+      hud = Material("vgui/ttt/dynamic/roles/icon_spr.vmt"),
+      type = "bad"
+    })
+  end)
+
   function DoSmoke()
     for _, ply in ipairs(player.GetAll()) do
       if ply:Alive() and ply:GetNWBool("Haunted") and GetConVar("ttt2_spectre_smoke_mode"):GetBool() then

@@ -104,6 +104,7 @@ if SERVER then
         ply.hauntedBy = nil
         ply:SetNWBool("Haunted", false)
         STATUS:RemoveStatus(ply, "spectre_haunt_status")
+        haunter:ResetConfirmPlayer()
         SendFullStateUpdate()
         sendPopups("spectreRevived")
       end,

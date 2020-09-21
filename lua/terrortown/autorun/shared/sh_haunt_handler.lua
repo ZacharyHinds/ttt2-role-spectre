@@ -47,6 +47,7 @@ if SERVER then
     if not IsValid(ply) or not IsValid(attacker) or not attacker:IsPlayer() then return end
     if SpecDM and (ply:IsGhost() or attacker:IsGhost()) then return end
     if GetRoundState() ~= ROUND_ACTIVE then return end
+    if ply == attacker then return end
 
     if ply:GetSubRole() == ROLE_SPECTRE then
       print(ply:Nick() .. " is now haunting " .. attacker:Nick())

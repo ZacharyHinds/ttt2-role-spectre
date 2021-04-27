@@ -43,7 +43,7 @@ if SERVER then
     end
   end
 
-  hook.Add("TTT2PostPlayerDeath", "SpectreKilled", function(ply, _, attacker)
+  hook.Add("DoPlayerDeath", "SpectreKilled", function(ply, attacker, dmgInfo)
     if not IsValid(ply) or not IsValid(attacker) or not attacker:IsPlayer() then return end
     if SpecDM and (ply:IsGhost() or attacker:IsGhost()) then return end
     if GetRoundState() ~= ROUND_ACTIVE then return end
@@ -53,6 +53,7 @@ if SERVER then
       print(ply:Nick() .. " is now haunting " .. attacker:Nick())
       attacker.hauntedBy = tostring(ply:AccountID())
       STATUS:AddStatus(attacker, "spectre_haunt_status")
+      events.Trigger(EVENT_SPR_HAUNT, ply, attacker, dmgInfo)
       sendPopups("spectreDied")
       net.Start("ttt2_net_show_haunt_popup")
       net.WriteString("spectreDied_self")
@@ -106,6 +107,7 @@ if SERVER then
         ply:SetNWBool("Haunted", false)
         STATUS:RemoveStatus(ply, "spectre_haunt_status")
         haunter:ResetConfirmPlayer()
+        events.Trigger(EVENT_SPR_REVIVE, haunter)
         SendFullStateUpdate()
         sendPopups("spectreRevived")
       end,

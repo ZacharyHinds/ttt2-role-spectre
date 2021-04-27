@@ -20,3 +20,10 @@ L["ttt2_spectre_self_text"] = "You will revive when they die"
 L["ttt2_role_spectre_dec_state_0"] = "Don't declare that the Spectre has died."
 L["ttt2_role_spectre_dec_state_1"] = "Declare that the Spectre has died to every player"
 L["ttt2_role_spectre_dec_state_2"] = "Declare that the Spectre has died to Detectives"
+
+
+--EVENT STRINGS
+L["title_spr_haunt"] = "A Spectre was killed."
+L["desc_spr_haunt"] = "{victim} haunted {attacker}."
+L["title_spr_revive"] = "A Spectre revived."
+L["desc_spr_revive"] = "{spectre} respawned."

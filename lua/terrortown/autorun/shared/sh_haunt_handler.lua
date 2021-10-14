@@ -94,7 +94,7 @@ if SERVER then
 
     local spectre_worldspawn = GetConVar("ttt2_spectre_worldspawn"):GetBool()
 
-    local spawnpoint = spawn.GetRandomPlayerSpawnEntity(haunter)
+    local spawnpoint = plyspawn.GetRandomPlayerSpawnEntity(haunter)
 
     haunter:Revive(
       0,

@@ -25,5 +25,6 @@ L["ttt2_role_spectre_dec_state_2"] = "Declare that the Spectre has died to Detec
 --EVENT STRINGS
 L["title_spr_haunt"] = "A Spectre was killed."
 L["desc_spr_haunt"] = "{victim} haunted {attacker}."
+L["tooltip_spr_haunt_score"] = "Killed a Spectre: {score}"
 L["title_spr_revive"] = "A Spectre revived."
 L["desc_spr_revive"] = "{spectre} respawned."

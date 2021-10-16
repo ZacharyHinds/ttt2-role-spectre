@@ -94,13 +94,13 @@ if SERVER then
 
     local spectre_worldspawn = GetConVar("ttt2_spectre_worldspawn"):GetBool()
 
-    local spawnpoint = plyspawn.GetRandomPlayerSpawnEntity(haunter)
+    local spawnpoint = plyspawn.GetRandomSafePlayerSpawnPoint(haunter)
 
     haunter:Revive(
       0,
       function()
         if spectre_worldspawn and spawnpoint then
-          haunter:SetPos(spawnpoint:GetPos())
+          haunter:SetPos(spawnpoint.pos)
         end
         haunter:SetHealth(GetConVar("ttt2_spectre_revive_health"):GetInt())
         ply.hauntedBy = nil

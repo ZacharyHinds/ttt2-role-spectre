@@ -28,3 +28,13 @@ L["desc_spr_haunt"] = "{victim} haunted {attacker}."
 L["tooltip_spr_haunt_score"] = "Killed a Spectre: {score}"
 L["title_spr_revive"] = "A Spectre revived."
 L["desc_spr_revive"] = "{spectre} respawned."
+
+--SETTINGS STRINGS
+L["label_ttt2_spectre_revive_health"] = "Health after revive"
+L["label_ttt2_spectre_declare_mode_info"] = [[Select the mode you want to use for declaring the Spectre's death.
+0 - Don't declare that the Spectre has died.
+1 - Declare that the Spectre has died to every player.
+2 - Declare that the Spectre has died to Detectives.]]
+L["label_ttt2_spectre_declare_mode"] = "Declare mode"
+L["label_ttt2_spectre_smoke_mode"] = "Do Spectre smoke"
+L["label_ttt2_spectre_worldspawn"] = "Spectre spawns at a spawnpoint (instead of at their body)"

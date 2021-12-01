@@ -1,3 +1,8 @@
+CreateConVar("ttt2_spectre_declare_mode", 2, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+CreateConVar("ttt2_spectre_revive_health", 50, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+CreateConVar("ttt2_spectre_smoke_mode", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+CreateConVar("ttt2_spectre_worldspawn", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+
 AddCSLuaFile()
 
 if SERVER then
@@ -26,4 +31,44 @@ end
 
 function ROLE:Initialize()
   roles.SetBaseRole(self, ROLE_INNOCENT)
+end
+
+if CLIENT then
+  hook.Add("TTT2FinishedLoading", "mes_devicon", function() -- addon developer emblem for me ^_^
+    AddTTT2AddonDev("76561198049910438")
+  end)
+
+  function ROLE:AddToSettingsMenu(parent)
+    local form = vgui.CreateTTT2Form(parent, "header_roles_additional")
+
+    form:MakeSlider({
+      serverConvar = "ttt2_spectre_revive_health",
+      label = "label_ttt2_spectre_revive_health",
+      min = 1,
+      max = 100,
+      decimal = 0
+    })
+
+    form:MakeHelp({
+      label = "label_ttt2_spectre_declare_mode_info"
+    })
+
+    form:MakeSlider({
+      serverConvar = "ttt2_spectre_declare_mode",
+      label = "label_ttt2_spectre_declare_mode",
+      min = 0,
+      max = 2,
+      decimal = 0
+    })
+
+    form:MakeCheckBox({
+      serverConvar = "ttt2_spectre_smoke_mode",
+      label = "label_ttt2_spectre_smoke_mode"
+    })
+
+    form:MakeCheckBox({
+      serverConvar = "ttt2_spectre_worldspawn",
+      label = "label_ttt2_spectre_worldspawn"
+    })
+  end
 end
